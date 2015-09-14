@@ -10,5 +10,7 @@ I need to make a tutorial for myself.
 Start by making a file  
 "git add README.md"  
 "git status" -It should show README.md in <green>green</div>
-"git commit -m "comments here""
-
+"git commit -m "comments here""  
+If done, and want to put online  
+"git pull origin master" will take what is online and DL to your workspace  
+"git push origin master" posts changes
