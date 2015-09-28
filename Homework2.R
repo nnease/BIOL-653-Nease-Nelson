@@ -37,6 +37,7 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
 #ok, calling it a night. but look up density plots here http://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/
 # GG brah
 
+#is there a way to make ggplot and all the things not have to be reloaded everytime? or did i screw myself by starting this thing NOT up here in the script place?
 
 
 
