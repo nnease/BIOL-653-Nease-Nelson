@@ -10,22 +10,26 @@ library(tidyr)
 ```{r}
 ggplot(data = gapminder, aes(x = year, y = lifeExp)) +
   geom_point()
+#the very basic
 ```
 
 ```{r}
 ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) +
   geom_point()
+#added color, well "coloUr"
 ```
 
 this works so far
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point()
+#changed axes
 ```
 
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent))
+#now with shapes!
 ```
 HA I did it! This is part 1 on the HW
 
@@ -34,6 +38,7 @@ Plot 2
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
   scale_x_log10()
+#shapes and log scale
 ```
 
 ```{r}
@@ -41,6 +46,7 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   stat_smooth(method = lm)
+#added linear modelling lines, but went to all the sets.
 ```
 closer, been working on it awhile, but can't get it to just one line for the 
  whole graph.....
@@ -51,6 +57,7 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   geom_smooth(aes(group = 1), size = 1, method = "lm", se = TRUE)
+#grouped all the lines together
 ```
 
 
@@ -75,9 +82,9 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(color = "black", alpha = 0.4) +
-  facet_wrap(~year)
+  facet_grid(year~.)
 #^ this gets all horizontal facets. dammit. Can I swear in the comments? 
-#is that kosher? Fuck it. Sorry about your delicate sensibilities. You ass.
+#is that kosher? Screw it. Sorry about your delicate sensibilities. You ass.
 ```
 
 Plot 4
@@ -101,6 +108,7 @@ Plot 5
 ```{r}
 ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) + 
   geom_boxplot() +
+  #this swaps density for box plots. 
   facet_wrap(~year) +
   theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5))
 #^ plot 5 and bonus! y axis labelling fixed.
@@ -125,19 +133,25 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
 Plot 7
 ```{r}
 asian_data <- filter(gapminder, continent == "Asia")
+#creating the data to pull from
 
 ggplot(data = asian_data, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) +
-  scale_fill_manual(values = c("green")) + 
+  scale_fill_manual(values = c("green")) +
+  #I'm sure there's a way to not have the color messed with so much, 
+  #but this works, even if ugly
   geom_density(color = "black", alpha = 0.6) + 
   geom_vline(aes(xintercept = mean(lifeExp))) +
+  #adds the mean line
   theme(legend.position = 'none') + 
+  #erases the legend
   ggtitle("Life expectancy in Asia")
+#adds the title
 #^ plot 7 got it!
 ```
 
 8a Create a data.frame of the mean life expectancies for each continent
-```{r, message=FALSE}
+```{r}
 mean_lifeExp <- 
   gapminder %>%
   group_by(continent) %>%
@@ -160,6 +174,8 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
   facet_wrap(~continent) + 
   geom_density(color = "black", alpha = 0.6) + 
   geom_vline(data = mean_lifeExp, aes(xintercept = avg))
+#changes the data to the newly created data set and pulls the mean line
+#from the avg created
 ```
 
 Troubleshooting section
