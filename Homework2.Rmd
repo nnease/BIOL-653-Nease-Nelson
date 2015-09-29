@@ -1,5 +1,5 @@
-#keep the scripts here, to beeter document what is changing
-# load the libraries gapminder and ggplot2 and dplyr and tidyr
+keep the scripts here, to better document what is changing
+ load the libraries gapminder and ggplot2 and dplyr and tidyr
 ```{r}
 library(gapminder)
 library(ggplot2)
@@ -53,11 +53,11 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent)) + 
   geom_density(aes(shape = continent)) +
   facet_grid(year~lifeExp)
-#^ this one is broken
+^ this one is broken
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(aes(shape = continent), alpha = 0.4)
-#^ this one is broken
+^ this one is broken
 
 
 ```{r}
