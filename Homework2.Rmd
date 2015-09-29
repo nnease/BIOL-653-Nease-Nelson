@@ -1,39 +1,54 @@
 #keep the scripts here, to beeter document what is changing
 # load the libraries gapminder and ggplot2 and dplyr and tidyr
+```{r}
+library(gapminder)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
 
+```{r}
 ggplot(data = gapminder, aes(x = year, y = lifeExp)) +
   geom_point()
 ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) +
   geom_point()
-
-#this works so far
+```
+this works so far
+```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point()
+```
 
+```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent))
-#HA I did it! This is part 1 on the HW
+```
+HA I did it! This is part 1 on the HW
 
+Plot 2
+```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
   scale_x_log10()
+```
 
-#^ plot 2
-
+```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   stat_smooth(method = lm)
+```
+closer, been working on it awhile, but can't get it to just one line for the 
+ whole graph.....
 
-#closer, been working on it awhile, but can't get it to just one line for the 
-# whole graph.....
-
+Plot 3
+```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   geom_smooth(aes(group = 1), size = 1, method = "lm", se = TRUE)
+```
 
-#^ plot 3
 
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent)) + 
   geom_density(aes(shape = continent)) +
@@ -44,38 +59,50 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
   geom_density(aes(shape = continent), alpha = 0.4)
 #^ this one is broken
 
+
+```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(color = "black",alpha = 0.4)
-##^ this one worked, but not faceted
+#^ this one worked, but not faceted
+```
 
+```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(color = "black", alpha = 0.4) +
   facet_wrap(~year)
 #^ this gets all horizontal facets. dammit. Can I swear in the comments? 
 #is that kosher? Fuck it. Sorry about your delicate sensibilities. You ass.
+```
 
+Plot 4
+```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
                              fill = continent)) + 
   geom_density(color = "black", alpha = 0.6) +
   facet_wrap(~year) 
-#^ plot 4, got it! With Jillian's help. stupid facet wrap.
+```
+Got it! With Jillian's help. stupid facet wrap.
+
 
 ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) + 
   geom_boxplot() +
   facet_grid(year~continent)
-#^ this is the box plot attempt
-# again, i think it's right, but wrong facet layout. the dots will squish 
-# together? need to figure out how to get all the boxes on the same graph?
+ this is the box plot attempt
+again, i think it's right, but wrong facet layout. the dots will squish 
+together? need to figure out how to get all the boxes on the same graph?
 
+Plot 5
+```{r}
 ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) + 
   geom_boxplot() +
   facet_wrap(~year) +
   theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5))
 #^ plot 5 and bonus! y axis labelling fixed.
+```
 
-#v starting dplyer
+Starting dplyer
 
 select(gapminder)
 
@@ -83,11 +110,16 @@ tbl_df(gapminder)
 
 group_by(gapminder, continent)
 
+Plot 6
+```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                               fill = continent)) +
   geom_density(color = "black", alpha = 0.6)
-#^ plot 6
+```
 
+
+Plot 7
+```{r}
 asian_data <- filter(gapminder, continent == "Asia")
 
 ggplot(data = asian_data, aes(x = lifeExp, y = , colour = continent, 
@@ -98,36 +130,37 @@ ggplot(data = asian_data, aes(x = lifeExp, y = , colour = continent,
   theme(legend.position = 'none') + 
   ggtitle("Life expectancy in Asia")
 #^ plot 7 got it!
+```
 
-#8a v Create a data.frame of the mean life expectancies for each continent
+8a Create a data.frame of the mean life expectancies for each continent
+```{r, message=FALSE}
 mean_lifeExp <- 
   gapminder %>%
   group_by(continent) %>%
   summarize(avg = mean(lifeExp))
 
-#8b v Plot the density plot of life expectancies for each continent 
-# and draw a vertical line to mark the mean life expectancy for each continent.
 
+mean_lifeExp
+```
+
+mean_lifeExp <- 
+  gapminder %>%
+  group_by(continent) %>%
+  summarize(avg = mean(lifeExp))
+
+8b Plot the density plot of life expectancies for each continent 
+ and draw a vertical line to mark the mean life expectancy for each continent.
+```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) +
   facet_wrap(~continent) + 
   geom_density(color = "black", alpha = 0.6) + 
   geom_vline(data = mean_lifeExp, aes(xintercept = avg))
-
-
-ggplot(data = mean_lifeExp, aes(x = lifeExp, y = , colour = "black", 
-                             fill = continent)) +
-  facet_wrap(~continent) + 
-  geom_density(color = "black", alpha = 0.6) + 
-  geom_vline(xintercept = avg)
+```
 
 
 
 
-
-# is there a way to make ggplot and all the things not have to be reloaded 
-# everytime? or did i screw myself by starting this thing NOT up here in the 
-# script place?
 
 
 
