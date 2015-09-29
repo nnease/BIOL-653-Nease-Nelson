@@ -10,9 +10,13 @@ library(tidyr)
 ```{r}
 ggplot(data = gapminder, aes(x = year, y = lifeExp)) +
   geom_point()
+```
+
+```{r}
 ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) +
   geom_point()
 ```
+
 this works so far
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
@@ -158,8 +162,42 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
   geom_vline(data = mean_lifeExp, aes(xintercept = avg))
 ```
 
+Troubleshooting section
+make sure to setwd("R_projects/")
+then double check with list.files()
+then run library(ggplot2)
+can also check working directory with getwd()
 
+original one:
+mean_lifeExp <- mean(hw_gapminder$lifeExpe)
 
+small_set <- hw_gapminder[c(1, 2, 3, 4, 1300:1304), ('country', 'continent', 'year')]
+
+mean_gdp <- mean(hw_gapminder$gdpPercap)
+
+max_country <- hw_gapminder$country[which(hw_gapminder$lifeExp = max(hw_gapminder$lifeExp))]
+
+Fixed ones
+
+```{r}
+#extra "e" at the end
+mean_lifeExp <- mean(hw_gapminder$lifeExp)
+```
+
+```{r}
+#added "c" at front
+small_set <- hw_gapminder[c(1, 2, 3, 4, 1300:1304), c('country', 'continent', 'year')]
+```
+
+```{r}
+#hmmm
+mean_gdp <- mean(hw_gapminder$gdpPercap)
+```
+
+```{r}
+#missing extra =
+max_country <- hw_gapminder$country[which(hw_gapminder$lifeExp == max(hw_gapminder$lifeExp))]
+```
 
 
 
