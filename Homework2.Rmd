@@ -206,8 +206,8 @@ small_set <- hw_gapminder[c(1, 2, 3, 4, 1300:1304), c('country', 'continent', 'y
 ```
 
 ```{r}
-#hmmm
-mean_gdp <- mean(hw_gapminder$gdpPercap)
+#add na.rm = TRUE
+mean_gdp <- mean(hw_gapminder$gdpPercap, na.rm = TRUE)
 ```
 
 ```{r}
