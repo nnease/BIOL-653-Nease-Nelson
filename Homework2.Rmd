@@ -1,5 +1,19 @@
+---
+title: "Homework 2"
+author: "Nelson Nease"
+date: "September 29, 2015"
+output: html_document
+---
+
+I've included a header so that when you render the Rmarkdown document in RStudio
+ it knows what kind of document to create, and includes some extra information 
+ about the document.  
+
+
 keep the scripts here, to better document what is changing
  load the libraries gapminder and ggplot2 and dplyr and tidyr
+
+
 ```{r}
 library(gapminder)
 library(ggplot2)
@@ -20,6 +34,7 @@ ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) +
 ```
 
 this works so far
+
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point()
@@ -34,6 +49,7 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
 HA I did it! This is part 1 on the HW
 
 Plot 2
+
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
@@ -46,35 +62,51 @@ ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) +
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   stat_smooth(method = lm)
-#added linear modelling lines, but went to all the sets.
+#added linear modelling lines, but went to all the sets.  
 ```
 closer, been working on it awhile, but can't get it to just one line for the 
- whole graph.....
+ whole graph.....  
+
 
 Plot 3
+
 ```{r}
 ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent)) + 
   geom_point(aes(shape = continent)) +
   scale_x_log10() +
   geom_smooth(aes(group = 1), size = 1, method = "lm", se = TRUE)
 #grouped all the lines together
+
+# You could also do this if you wanted, by moving the colour grouping to the 
+# geom_point, it does set a default grouping for all the other data layers.
+ggplot(data = gapminder, aes(x = log10(gdpPercap), y = lifeExp)) + 
+  geom_point(aes(colour = continent, shape = continent)) +
+  geom_smooth(method = 'lm')
+
+
+# If you want more info on the group argument of aes() check out ?ggplot2::group
 ```
 
+You can use \`\`\`{r, eval = FALSE}\`\`\` to prevent broken code from being 
+evaluated, but still have it show up in a pretty code block. 
 
+```{r, eval = FALSE}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent)) + 
   geom_density(aes(shape = continent)) +
   facet_grid(year~lifeExp)
-^ this one is broken
+# ^ this one is broken
+
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(aes(shape = continent), alpha = 0.4)
-^ this one is broken
+# ^ this one is broken
+```
 
 
 ```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
-  geom_density(color = "black",alpha = 0.4)
+  geom_density(color = "black", alpha = 0.4)
 #^ this one worked, but not faceted
 ```
 
@@ -82,12 +114,14 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) + 
   geom_density(color = "black", alpha = 0.4) +
-  facet_grid(year~.)
+  facet_grid(year ~ .)
 #^ this gets all horizontal facets. dammit. Can I swear in the comments? 
 #is that kosher? Screw it. Sorry about your delicate sensibilities. You ass.
+
 ```
 
 Plot 4
+
 ```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
                              fill = continent)) + 
@@ -96,15 +130,20 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
 ```
 Got it! With Jillian's help. stupid facet wrap.
 
+I LOVE facet wrap :P
 
+
+```{r, eval = FALSE}
 ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) + 
   geom_boxplot() +
   facet_grid(year~continent)
- this is the box plot attempt
-again, i think it's right, but wrong facet layout. the dots will squish 
-together? need to figure out how to get all the boxes on the same graph?
+# this is the box plot attempt
+# again, i think it's right, but wrong facet layout. the dots will squish 
+# together? need to figure out how to get all the boxes on the same graph?
+```
 
 Plot 5
+
 ```{r}
 ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) + 
   geom_boxplot() +
@@ -114,23 +153,32 @@ ggplot(data = gapminder, aes(x = continent, y = lifeExp, colour = continent)) +
 #^ plot 5 and bonus! y axis labelling fixed.
 ```
 
-Starting dplyer
+Starting dplyr
 
+```{r}
 select(gapminder)
 
 tbl_df(gapminder)
 
 group_by(gapminder, continent)
+```{r}
 
 Plot 6
 ```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                               fill = continent)) +
   geom_density(color = "black", alpha = 0.6)
+
+# JD: If you don't put colour = continent in the aes, you don't have to make it 
+# 'black' in the geom_density()
+
+ggplot(data = gapminder, aes(x = lifeExp, fill = continent)) + 
+  geom_density(alpha = 0.6)
 ```
 
 
 Plot 7
+
 ```{r}
 asian_data <- filter(gapminder, continent == "Asia")
 #creating the data to pull from
@@ -148,9 +196,18 @@ ggplot(data = asian_data, aes(x = lifeExp, y = , colour = continent,
   ggtitle("Life expectancy in Asia")
 #adds the title
 #^ plot 7 got it!
+
+# JD: It can be preferable when the object is small, to create the data subset 
+# within the ggplot so that you don't end up with many little objects running 
+# filling up your workspace. 
+
+ggplot(filter(gapminder, lifeExp, continent), aes(x = lifeExp, fill = continent)) + 
+  geom_density(alpha = 0.5) + 
+  geom_vline(xintercept = mean(lifeExp))
 ```
 
 8a Create a data.frame of the mean life expectancies for each continent
+
 ```{r}
 mean_lifeExp <- 
   gapminder %>%
@@ -161,13 +218,9 @@ mean_lifeExp <-
 mean_lifeExp
 ```
 
-mean_lifeExp <- 
-  gapminder %>%
-  group_by(continent) %>%
-  summarize(avg = mean(lifeExp))
-
 8b Plot the density plot of life expectancies for each continent 
  and draw a vertical line to mark the mean life expectancy for each continent.
+
 ```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent, 
                              fill = continent)) +
@@ -178,13 +231,21 @@ ggplot(data = gapminder, aes(x = lifeExp, y = , colour = continent,
 #from the avg created
 ```
 
-Troubleshooting section
-make sure to setwd("R_projects/")
-then double check with list.files()
-then run library(ggplot2)
-can also check working directory with getwd()
+Troubleshooting section  
 
-original one:
+* make sure to setwd("R_projects/")  
+* then double check with list.files()  
+* then run library(ggplot2)  
+* can also check working directory with getwd()  
+
+original one:  
+
+**Note** Here I used \`\`\`{r, eval = FALSE}\`\`\` to prevent the broken code 
+from running and hence having R throw a hissy fit and fail to render the html 
+document.
+
+```{r, eval = FALSE}
+
 mean_lifeExp <- mean(hw_gapminder$lifeExpe)
 
 small_set <- hw_gapminder[c(1, 2, 3, 4, 1300:1304), ('country', 'continent', 'year')]
@@ -192,6 +253,7 @@ small_set <- hw_gapminder[c(1, 2, 3, 4, 1300:1304), ('country', 'continent', 'ye
 mean_gdp <- mean(hw_gapminder$gdpPercap)
 
 max_country <- hw_gapminder$country[which(hw_gapminder$lifeExp = max(hw_gapminder$lifeExp))]
+```
 
 Fixed ones
 
